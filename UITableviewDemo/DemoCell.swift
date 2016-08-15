@@ -17,6 +17,7 @@ class DemoCell: UITableViewCell {
     
     var cellHeight:CGFloat = 10
     
+  
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -63,25 +64,40 @@ class DemoCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        let titleSize = titlelb.sizeThatFits(CGSizeMake(screenWidth-20, self.bounds.size.height))
+       titlelb.frame = CGRectMake(10, 10, titleSize.width, titleSize.height)
+        
+        
+    
+       let size = contentlb.sizeThatFits(CGSizeMake(screenWidth-50, self.bounds.size.height))
+        contentlb.frame = CGRectMake(contentlb.frame.origin.x,CGRectGetMaxY(titlelb.frame)+10, size.width, size.height)
+      
        
-        contentlb.frame = CGRectMake(contentlb.frame.origin.x, contentlb.frame.origin.y, contentlb.frame.size.width, contentlb.frame.size.height)
-        
-        contentlb.sizeToFit()
         
         
-        picImgView.frame = CGRectMake(picImgView.frame.origin.x, CGRectGetMaxY(contentlb.frame)+10, picImgView.frame.size.width, picImgView.frame.size.height)
-        
-        
-        usernamelb.frame = CGRectMake(usernamelb.frame.origin.x, CGRectGetMaxY(picImgView.frame)+10, usernamelb.frame.size.width, usernamelb.frame.size.height)
-        
-        
-        var frame = timelb.frame
-        frame.origin.y = usernamelb.frame.origin.y
-        timelb.frame = frame
+        if (picImgView.image != nil){
+            
+            picImgView.frame = CGRectMake(picImgView.frame.origin.x, CGRectGetMaxY(contentlb.frame)+10, picImgView.frame.size.width, picImgView.frame.size.height)
+            
+            usernamelb.frame = CGRectMake(usernamelb.frame.origin.x, CGRectGetMaxY(picImgView.frame)+10, usernamelb.frame.size.width, usernamelb.frame.size.height)
+            
+            
+            var frame = timelb.frame
+            frame.origin.y = usernamelb.frame.origin.y
+            timelb.frame = frame
+        }else{
+            usernamelb.frame = CGRectMake(usernamelb.frame.origin.x, CGRectGetMaxY(contentlb.frame)+10, usernamelb.frame.size.width, usernamelb.frame.size.height)
+            
+            
+            var frame = timelb.frame
+            frame.origin.y = usernamelb.frame.origin.y
+            timelb.frame = frame
+        }
+       
     }
     
     override func sizeThatFits(size: CGSize) -> CGSize {
-        super.sizeThatFits(size)
+        //super.sizeThatFits(size)
         var totalHeight:CGFloat = 0;
         totalHeight += self.titlelb.sizeThatFits(size).height
         totalHeight += self.contentlb.sizeThatFits(size).height
@@ -113,6 +129,7 @@ class DemoCell: UITableViewCell {
         let username = dict["username"] as? String
         
         titlelb.text = title
+
         contentlb.text = content
         usernamelb.text = username
         timelb.text = time
@@ -123,6 +140,8 @@ class DemoCell: UITableViewCell {
             var frame = picImgView.frame
             frame.size = (img.size)
             picImgView.frame = frame
+        }else{
+            picImgView.image = nil
         }
        
         

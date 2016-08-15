@@ -71,13 +71,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //            [self configureCell:cell atIndexPath:indexPath];
 //        }];
         
-        return tableView.fd_heightForCellWithIdentifier("cellId", configuration: { (cell) in
+//        return tableView.fd_heightForCellWithIdentifier("cellId", configuration: { (cell) in
+//            if self.arrayData[indexPath.row] is NSDictionary{
+//                let dict = self.arrayData[indexPath.row] as! NSDictionary
+//                (cell as! DemoCell).setDataSource(dict)
+//            }
+//        })
+        
+        return tableView.fd_heightForCellWithIdentifier("cellId", cacheByIndexPath: indexPath, configuration: { (cell) in
             if self.arrayData[indexPath.row] is NSDictionary{
                 let dict = self.arrayData[indexPath.row] as! NSDictionary
                 (cell as! DemoCell).setDataSource(dict)
             }
         })
-//        return 50
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -87,12 +93,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
           cell = DemoCell(style: .Default, reuseIdentifier: cellId)
         }
         
+       
+        
         if arrayData[indexPath.row] is NSDictionary{
             let dict = arrayData[indexPath.row] as! NSDictionary
             (cell as! DemoCell).setDataSource(dict)
         }
         
-        cell?.sizeThatFits(CGSizeMake(screenWidth, 100))
+       //cell?.sizeThatFits(CGSizeMake(screenWidth, 100))
+        
+         cell?.fd_enforceFrameLayout = true
         return cell!
     }
 
